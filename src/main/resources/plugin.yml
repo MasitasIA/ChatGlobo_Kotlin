@@ -9,34 +9,34 @@ commands:
     description: Activa o desactiva tus propios globos
     usage: /globo
   globoglobal:
-    description: Admin - Activa o desactiva el plugin para todos
+    description: Activa o desactiva el plugin para todos
     usage: /globoglobal
     permission: chatglobo.admin
   globoaltura:
-    description: Admin - Ajusta la altura del globo
+    description: Ajusta la altura del globo
     usage: /globoaltura <numero>
     permission: chatglobo.admin
   globoclear:
-    description: Admin - Limpia todos los globos activos
+    description: Limpia todos los globos activos
     usage: /globoclear
     permission: chatglobo.admin
   globomute:
-    description: Admin - Silencia a un jugador para que no pueda usar globos
+    description: Silencia a un jugador para que no pueda usar globos
     usage: /globomute <jugador>
     permission: chatglobo.admin
   globotiempo:
-    description: Admin - Ajusta el tiempo de duración de los globos
+    description: Ajusta el tiempo de duración de los globos
     usage: /globotiempo <segundos>
     permission: chatglobo.admin
   globospawn:
-    description: Admin - Crea un globo donde estás mirando
+    description: Crea un globo donde estás mirando
     usage: /globospawn <texto>
     permission: chatglobo.admin
   globoreload:
-    description: Admin - Recarga la configuración (config.yml)
+    description: Recarga la configuración (config.yml)
     usage: /globoreload
     permission: chatglobo.admin
   globodelay:
-    description: Admin - Ajusta el delay de aparición
+    description: Ajusta el delay de aparición
     usage: /globodelay <ticks>
     permission: chatglobo.admin

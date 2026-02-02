@@ -54,14 +54,15 @@ ChatGlobo utiliza tecnología moderna que no está disponible en versiones antig
 | `/globo` | Activa o desactiva tus propios globos de texto. Útil si quieres ser discreto. | Ninguno |
 
 ### Para Administradores
-| Comando | Descripción | Permiso |
-| :--- | :--- | :--- |
-| `/globoglobal` | Activa o desactiva el plugin para **todos** en el servidor. | `chatglobo.admin` |
-| `/globoaltura <n>` | Define la altura del globo (ej. `0.625`). Se guarda automáticamente. | `chatglobo.admin` |
-| `/globoclear` | Borra todos los globos de textos en el mundo. | `chatglobo.admin` |
-| `/globomute <jugador>` | Mutea los globos de texto de un jugador. | `chatglobo.admin` |
-| `/globotiempo <segundos>` | Define el tiempo que se muestran los globos de texto. | `chatglobo.admin` |
-| `/globoreload` | Recarga las configuraciones del plugin. | `chatglobo.admin` |
+| Comando                   | Descripción                                                          | Permiso |
+|:--------------------------|:---------------------------------------------------------------------| :--- |
+| `/globoglobal`            | Activa o desactiva el plugin para **todos** en el servidor.          | `chatglobo.admin` |
+| `/globoaltura <n>`        | Define la altura del globo (ej. `0.625`). Se guarda automáticamente. | `chatglobo.admin` |
+| `/globoclear`             | Borra todos los globos de textos en el mundo.                        | `chatglobo.admin` |
+| `/globomute <jugador>`    | Mutea los globos de texto de un jugador.                             | `chatglobo.admin` |
+| `/globotiempo <segundos>` | Define el tiempo que se muestran los globos de texto.                | `chatglobo.admin` |
+| `/globoreload`            | Recarga las configuraciones del plugin.                              | `chatglobo.admin` |
+| `/globodelay`             | Define el delay de aparición de los globos.                          | `chatglobo.admin` |
 ---
 
 ## ⚙️ Configuración (`config.yml`)
@@ -78,6 +79,9 @@ altura-globo: 0.25
 
 # Duración del globo en segundos antes de desaparecer
 tiempo-vida: 5
+
+# Duración de la animación de aparición/desaparición en ticks (20 ticks = 1 segundo)
+ticks-aparicion: 1
 
 # Lista de jugadores que tienen el globo desactivado personalmente
 # (No toques esto manualmente, se llena solo con comandos)
