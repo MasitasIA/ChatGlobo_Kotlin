@@ -1,0 +1,22 @@
+# Configuración de ChatGlobo
+
+# Interruptor general del plugin (true = activado, false = desactivado)
+global-activo: true
+
+# Altura del globo sobre la cabeza del jugador (en bloques)
+# 0.25 es ideal para estar pegado a la cabeza sin tocarla
+altura-globo: 0.25
+
+# Duración del globo en segundos antes de desaparecer
+tiempo-vida: 5
+
+# Duración de la animación de aparición/desaparición en ticks (20 ticks = 1 segundo)
+ticks-aparicion: 1
+
+# Lista de jugadores que tienen el globo desactivado personalmente
+# (No toques esto manualmente, se llena solo con comandos)
+usuarios-ocultos: []
+
+# Lista de jugadores que están muteados y no pueden usar globos
+# (No toques esto manualmente, se llena solo con comandos)
+usuarios-muteados: []

@@ -1,0 +1,15 @@
+# Archivos compilados
+target/
+*.class
+
+# Archivos de configuración de IDE (VS Code, Eclipse, etc)
+.vscode/
+.settings/
+.classpath
+.project
+*.iml
+.idea/
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
