@@ -4,7 +4,6 @@ import io.papermc.paper.event.player.AsyncChatEvent
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.NamedTextColor
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
-import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer
 import org.bukkit.Bukkit
 import org.bukkit.Color
 import org.bukkit.GameMode
@@ -19,6 +18,7 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.plugin.java.JavaPlugin
 import java.util.*
+import org.bukkit.event.EventPriority // Asegúrate de importar esto
 
 class ChatGlobo : JavaPlugin(), Listener {
 
@@ -206,21 +206,36 @@ class ChatGlobo : JavaPlugin(), Listener {
     }
 
     // --- Evento de chat ---
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     fun alChatear(event: AsyncChatEvent) {
+        // Validaciones básicas (global desactivado, muteado, oculto)
         if (!globalActivo) return
         val player = event.player
         if (usuariosMuteados.contains(player.uniqueId)) return
         if (usuariosOcultos.contains(player.uniqueId)) return
 
-        val textoCrudo = PlainTextComponentSerializer.plainText().serialize(event.message())
+        // 1. Empezamos con el mensaje original del evento (preserva colores y formatos de otros plugins)
+        var mensajeDelChat = event.message()
 
+        // 2. FILTRO DE LIMPIEZA (Solo actúa si detecta códigos de InteractiveChat)
+        val textoSerializado = serializer.serialize(mensajeDelChat)
+
+        val patronInteractiveChat = "<chat=[^:]+:([^>]+):>".toRegex()
+
+        if (patronInteractiveChat.containsMatchIn(textoSerializado)) {
+            val textoLimpio = textoSerializado.replace(patronInteractiveChat, "$1")
+
+            mensajeDelChat = serializer.deserialize(textoLimpio)
+        }
+
+        // 3. Construcción final del globo
         val mensajeFinal = Component.text()
-            .append(Component.text(player.name, NamedTextColor.YELLOW))
+            .append(player.displayName()) // Nombre del jugador (Compatible con Essentials/LuckPerms)
             .append(Component.text(" dice: ", NamedTextColor.GRAY))
-            .append(serializer.deserialize(textoCrudo))
+            .append(mensajeDelChat) // El mensaje (ya sea el original o el limpiado)
             .build()
 
+        // 4. Lanzar el globo en el hilo principal
         server.scheduler.runTask(this, Runnable { spawnGloboJugador(player, mensajeFinal) })
     }
 
