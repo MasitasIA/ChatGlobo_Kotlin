@@ -25,6 +25,9 @@ class ChatGlobo : JavaPlugin(), Listener {
     // --- CONSTANTES ---
     private val anchoGlobo = 200
 
+    // --- IDIOMAS ---
+    private lateinit var langConfig: org.bukkit.configuration.file.FileConfiguration
+
     // --- VARIABLES CONFIG ---
     private var globalActivo = true
     private var alturaGlobo = 0.25
@@ -57,6 +60,8 @@ class ChatGlobo : JavaPlugin(), Listener {
     private fun cargarConfiguracion() {
         reloadConfig()
 
+        cargarIdioma()
+
         globalActivo = config.getBoolean("global-activo", true)
         alturaGlobo = config.getDouble("altura-globo", 0.25)
         tiempoVida = config.getInt("tiempo-vida", 5)
@@ -68,6 +73,28 @@ class ChatGlobo : JavaPlugin(), Listener {
         usuariosMuteados.clear()
         cargarLista("usuarios-ocultos", usuariosOcultos)
         cargarLista("usuarios-muteados", usuariosMuteados)
+    }
+
+    private fun cargarIdioma() {
+        val idiomaElegido = config.getString("idioma", "es")
+        val langFile = java.io.File(dataFolder, "lang/$idiomaElegido.yml")
+
+        if (!langFile.exists()) {
+            langFile.parentFile.mkdirs()
+            saveResource("lang/$idiomaElegido.yml", false)
+        }
+        langConfig = org.bukkit.configuration.file.YamlConfiguration.loadConfiguration(langFile)
+    }
+
+    private fun getMsg(path: String, vararg placeholders: Pair<String, String>): Component {
+        val prefijo = langConfig.getString("prefijo", "")!!
+        var mensaje = langConfig.getString(path, "&cMensaje no encontrado: $path")!!
+
+        for (p in placeholders) {
+            mensaje = mensaje.replace(p.first, p.second)
+        }
+
+        return serializer.deserialize(prefijo + mensaje)
     }
 
     private fun cargarLista(path: String, setDestino: MutableSet<UUID>) {
@@ -95,6 +122,28 @@ class ChatGlobo : JavaPlugin(), Listener {
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
 
         when (command.name.lowercase()) {
+            // Cambiar idioma
+            "globoidioma" -> {
+                if (!sender.hasPermission("chatglobo.admin")) {
+                    sender.sendMessage(getMsg("sin-permiso"))
+                    return true
+                }
+                if (args.isEmpty()) {
+                    sender.sendMessage(getMsg("uso-idioma"))
+                    return true
+                }
+
+                val nuevoIdioma = args[0].lowercase()
+
+                config.set("idioma", nuevoIdioma)
+                saveConfig()
+
+                cargarIdioma()
+
+                sender.sendMessage(getMsg("idioma-cambiado", "%idioma%" to nuevoIdioma))
+                return true
+            }
+
             // Debugger
             "globodebug" -> {
                 if (sender !is Player) return true
@@ -123,7 +172,7 @@ class ChatGlobo : JavaPlugin(), Listener {
             "globoreload" -> {
                 if (!sender.hasPermission("chatglobo.admin")) return noPermiso(sender)
                 cargarConfiguracion()
-                sender.sendMessage(Component.text("✅ Configuración recargada correctamente.", NamedTextColor.GREEN))
+                sender.sendMessage(getMsg("config-recargada"))
                 return true
             }
 
@@ -147,7 +196,7 @@ class ChatGlobo : JavaPlugin(), Listener {
             "globoclear" -> {
                 if (!sender.hasPermission("chatglobo.admin")) return true
                 val eliminados = limpiarTodosLosGlobos()
-                sender.sendMessage(Component.text("🎈 Eliminados $eliminados globos.", NamedTextColor.GREEN))
+                sender.sendMessage(getMsg("globos-eliminados", "%cantidad%" to eliminados.toString()))
                 return true
             }
 
@@ -156,7 +205,8 @@ class ChatGlobo : JavaPlugin(), Listener {
                 if (!sender.hasPermission("chatglobo.admin")) return noPermiso(sender)
                 globalActivo = !globalActivo
                 guardarDatos()
-                sender.sendMessage(Component.text("🎈 Global: ${if (globalActivo) "ON" else "OFF"}", if (globalActivo) NamedTextColor.GREEN else NamedTextColor.RED))
+                val estado = if (globalActivo) langConfig.getString("estado-on", "&aON")!! else langConfig.getString("estado-off", "&cOFF")!!
+                sender.sendMessage(getMsg("globo-global", "%estado%" to estado))
                 if (!globalActivo) limpiarTodosLosGlobos()
                 return true
             }
@@ -167,7 +217,7 @@ class ChatGlobo : JavaPlugin(), Listener {
                 if (args.isEmpty()) return true
                 alturaGlobo = args[0].toDoubleOrNull() ?: return true
                 guardarDatos()
-                sender.sendMessage(Component.text("🎈 Altura base: $alturaGlobo", NamedTextColor.GREEN))
+                sender.sendMessage(getMsg("globo-altura", "%altura%" to alturaGlobo.toString()))
                 return true
             }
 
@@ -178,7 +228,7 @@ class ChatGlobo : JavaPlugin(), Listener {
                 val valTiempo = args[0].toIntOrNull() ?: return true
                 tiempoVida = valTiempo.coerceAtLeast(1)
                 guardarDatos()
-                sender.sendMessage(Component.text("🎈 Tiempo vida: ${tiempoVida}s", NamedTextColor.GREEN))
+                sender.sendMessage(getMsg("globo-tiempo", "%tiempo%" to tiempoVida.toString()))
                 return true
             }
 
@@ -186,7 +236,7 @@ class ChatGlobo : JavaPlugin(), Listener {
             "globodelay" -> {
                 if (!sender.hasPermission("chatglobo.admin")) return noPermiso(sender)
                 if (args.isEmpty()) {
-                    sender.sendMessage(Component.text("Uso: /globodelay <ticks> (20 ticks = 1 seg)", NamedTextColor.RED))
+                    sender.sendMessage(getMsg("globo-delay", "%delay%" to ticksAparicion.toString()))
                     return true
                 }
                 val valDelay = args[0].toLongOrNull() ?: return true
@@ -205,10 +255,10 @@ class ChatGlobo : JavaPlugin(), Listener {
 
                 if (usuariosMuteados.contains(id)) {
                     usuariosMuteados.remove(id)
-                    sender.sendMessage(Component.text("🎈 DESMUTEADO: ${target.name}", NamedTextColor.GREEN))
+                    sender.sendMessage(getMsg("jugador-desmuteado", "%jugador%" to target.name))
                 } else {
                     usuariosMuteados.add(id)
-                    sender.sendMessage(Component.text("🎈 MUTEADO: ${target.name}", NamedTextColor.RED))
+                    sender.sendMessage(getMsg("jugador-muteado", "%jugador%" to target.name))
                 }
                 guardarDatos()
                 return true
@@ -221,10 +271,10 @@ class ChatGlobo : JavaPlugin(), Listener {
 
                 if (usuariosOcultos.contains(id)) {
                     usuariosOcultos.remove(id)
-                    sender.sendMessage(Component.text("🎈 ACTIVADO.", NamedTextColor.GREEN))
+                    sender.sendMessage(getMsg("globo-activado"))
                 } else {
                     usuariosOcultos.add(id)
-                    sender.sendMessage(Component.text("🎈 DESACTIVADO.", NamedTextColor.YELLOW))
+                    sender.sendMessage(getMsg("globo-desactivado"))
                 }
                 guardarDatos()
                 return true
@@ -263,10 +313,11 @@ class ChatGlobo : JavaPlugin(), Listener {
         }
 
         // --- CONSTRUCCIÓN DEL GLOBO ---
+        val formatoDice = langConfig.getString("formato-dice", "&7 dice: ")!!
         val mensajeFinal = Component.text()
             .append(player.displayName())
-            .append(Component.text(" dice: ", NamedTextColor.GRAY))
-            .append(mensajeDelChat) // El mensaje ya limpio
+            .append(serializer.deserialize(formatoDice))
+            .append(mensajeDelChat)
             .build()
 
         server.scheduler.runTask(this, Runnable { spawnGloboJugador(player, mensajeFinal) })

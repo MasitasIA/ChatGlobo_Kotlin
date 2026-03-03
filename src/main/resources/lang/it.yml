@@ -1,0 +1,41 @@
+# ==========================================
+# File Linguaggio: Italiano (it)
+# Plugin: ChatGlobo
+# ==========================================
+
+# Il prefisso che appare prima di ogni messaggio del plugin
+prefijo: "&8[&eChatGlobo&8] &r"
+
+# Messaggi di errore o avviso
+sin-permiso: "&cNon hai i permessi per usare questo comando."
+uso-delay: "&cUso: /globodelay <ticks> (20 ticks = 1 sec)"
+
+# Messaggi di configurazione (Amministratori)
+config-recargada: "&a✅ Configurazione ricaricata con successo."
+globos-eliminados: "&a🎈 Eliminati %cantidad% fumetti."
+
+# Variabili di stato (Usate dentro globo-global)
+estado-on: "&aON"
+estado-off: "&cOFF"
+
+# Messaggi di valori aggiornati (Amministratori)
+globo-global: "🎈 Globale: %estado%"
+globo-altura: "&a🎈 Altezza base: %altura%"
+globo-tiempo: "&a🎈 Tempo di vita: %tiempo%s"
+globo-delay: "&a🎈 Ritardo apparizione: %ticks% ticks"
+
+# Messaggi di moderazione (Amministratori)
+jugador-desmuteado: "&a🎈 SMUTATO: %jugador%"
+jugador-muteado: "&c🎈 MUTATO: %jugador%"
+
+# Messaggi personali (Giocatori)
+globo-activado: "&a🎈 ATTIVATO."
+globo-desactivado: "&e🎈 DISATTIVATO."
+
+# Formato del globo di chat (Il testo tra il nome e il messaggio)
+# Curiosità: "dice" si scrive e significa esattamente la stessa cosa in italiano e spagnolo!
+formato-dice: "&7 dice: "
+
+# Lingua
+uso-idioma: "&cUso: /globoidioma <es/en/it>"
+idioma-cambiado: "&a✅ Lingua cambiata con successo in: &e%idioma%"

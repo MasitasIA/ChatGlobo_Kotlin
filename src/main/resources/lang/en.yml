@@ -1,0 +1,40 @@
+# ==========================================
+# Language File: English (en)
+# Plugin: ChatGlobo
+# ==========================================
+
+# The prefix that appears before each plugin message
+prefijo: "&8[&eChatGlobo&8] &r"
+
+# Error or warning messages
+sin-permiso: "&cYou do not have permission to use this command."
+uso-delay: "&cUsage: /globodelay <ticks> (20 ticks = 1 seg)"
+
+# Configuration messages (Administradores)
+config-recargada: "&a✅ Configuration reloaded successfully."
+globos-eliminados: "&a🎈 Eliminados %cantidad% globos."
+
+# Status variables (Used within globo-global)
+estado-on: "&aON"
+estado-off: "&cOFF"
+
+# Updated value messages (Administrators)
+globo-global: "🎈 Global: %estado%"
+globo-altura: "&a🎈 Base height: %altura%"
+globo-tiempo: "&a🎈 Lifetime: %tiempo%s"
+globo-delay: "&a🎈  Spawn delay: %ticks% ticks"
+
+# Moderation messages (Administrators)
+jugador-desmuteado: "&a🎈 UNMUTED: %jugador%"
+jugador-muteado: "&c🎈 MUTED: %jugador%"
+
+# Personal messages (Players)
+globo-activado: "&a🎈 ENABLED."
+globo-desactivado: "&e🎈 DISABLED."
+
+# Chat balloon format (The text that goes between the name and the message)
+formato-dice: "&7 says: "
+
+# Language
+uso-idioma: "&cUsage: /globoidioma <es/en/it>"
+idioma-cambiado: "&a✅ Language changed to: &e%idioma%"

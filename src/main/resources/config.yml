@@ -1,5 +1,8 @@
 # Configuración de ChatGlobo
 
+# Idioma (ES, EN, IT)
+idioma: "es"
+
 # Interruptor general del plugin (true = activado, false = desactivado)
 global-activo: true
 

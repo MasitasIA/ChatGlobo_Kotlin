@@ -63,6 +63,7 @@ ChatGlobo utiliza tecnología moderna que no está disponible en versiones antig
 | `/globotiempo <segundos>` | Define el tiempo que se muestran los globos de texto.                | `chatglobo.admin` |
 | `/globoreload`            | Recarga las configuraciones del plugin.                              | `chatglobo.admin` |
 | `/globodelay`             | Define el delay de aparición de los globos.                          | `chatglobo.admin` |
+| `/globoidioma`            | Cambia el idioma del plugin <ES, EN, IT>.                            | `chatglobo.admin` |
 ---
 
 ## ⚙️ Configuración (`config.yml`)
@@ -70,6 +71,11 @@ ChatGlobo utiliza tecnología moderna que no está disponible en versiones antig
 El archivo `config.yml` se genera automáticamente. Aquí se guardan tus preferencias:
 
 ```yaml
+# Configuración de ChatGlobo
+
+# Idioma (es, en, it)
+idioma: "es"
+
 # Interruptor general del plugin (true = activado, false = desactivado)
 global-activo: true
 
@@ -90,6 +96,59 @@ usuarios-ocultos: []
 # Lista de jugadores que están muteados y no pueden usar globos
 # (No toques esto manualmente, se llena solo con comandos)
 usuarios-muteados: []
+```
+
+---
+
+## 🗣 Idiomas
+
+Ahora el plugin viene con 3 configuraciones de idiomas incluidas, también permite modificar los archivos para mayor personalización
+
+* **Español (ES)**
+* **Inglés (EN)**
+* **Italiano (IT)**
+
+```yaml
+# ==========================================
+# Archivo de Idioma: Español (es)
+# Plugin: ChatGlobo
+# ==========================================
+
+# El prefijo que aparece antes de cada mensaje del plugin
+prefijo: "&8[&eChatGlobo&8] &r"
+
+# Mensajes de error o advertencia
+sin-permiso: "&cNo tienes permiso para usar este comando."
+uso-delay: "&cUso: /globodelay <ticks> (20 ticks = 1 seg)"
+
+# Mensajes de configuración (Administradores)
+config-recargada: "&a✅ Configuración recargada correctamente."
+globos-eliminados: "&a🎈 Eliminados %cantidad% globos."
+
+# Variables de estado (Se usan dentro de globo-global)
+estado-on: "&aON"
+estado-off: "&cOFF"
+
+# Mensajes de valores actualizados (Administradores)
+globo-global: "🎈 Global: %estado%"
+globo-altura: "&a🎈 Altura base: %altura%"
+globo-tiempo: "&a🎈 Tiempo vida: %tiempo%s"
+globo-delay: "&a🎈 Delay aparición: %ticks% ticks"
+
+# Mensajes de moderación (Administradores)
+jugador-desmuteado: "&a🎈 DESMUTEADO: %jugador%"
+jugador-muteado: "&c🎈 MUTEADO: %jugador%"
+
+# Mensajes personales (Jugadores)
+globo-activado: "&a🎈 ACTIVADO."
+globo-desactivado: "&e🎈 DESACTIVADO."
+
+# Formato del globo de chat (El texto que va entre el nombre y el mensaje)
+formato-dice: "&7 dice: "
+
+# Lenguaje
+uso-idioma: "&cUso: /globoidioma <es/en/it>"
+idioma-cambiado: "&a✅ Idioma cambiado correctamente a: &e%idioma%"
 ```
 
 ---

@@ -44,3 +44,7 @@ commands:
     description: Ajusta el delay de aparición
     usage: /globodelay <ticks>
     permission: chatglobo.admin
+  globoidioma:
+    description: Cambia el idioma del plugin
+    usage: /globoidioma <es/en/it>
+    permission: chatglobo.admin
