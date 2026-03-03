@@ -5,6 +5,10 @@ api-version: '1.21'
 authors: [MasitasIA]
 description: Muestra globos de texto automáticamente al chatear
 commands:
+  globodebug:
+    description: Debug de Metadata
+    usage: /globodebug
+    permission: chatglobo.admin
   globo:
     description: Activa o desactiva tus propios globos
     usage: /globo
